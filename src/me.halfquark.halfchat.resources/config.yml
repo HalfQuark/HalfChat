@@ -1,0 +1,42 @@
+# LocalChat
+# <name> = Player's name
+# <message> = Player's message
+# Use bukkit color codes in format - https://wiki.ess3.net/mc/
+# Use -1 radius for global/infinite distance
+default-channel: general
+direct-message:
+- ==: ConfigCommand
+  aliases:
+  - tell
+  - msg
+  format: '[<name1> -> <name2>]:<message>'
+  permission: ''
+  radius: -1
+- ==: ConfigCommand
+  aliases:
+  - r
+  format: '[<name1> -> <name2>]:<message>'
+  permission: ''
+  radius: -1
+commands:
+- ==: ConfigCommand
+  aliases:
+  - general
+  - g
+  format: '[g]<name>:<message>'
+  permission: ''
+  radius: -1
+- ==: ConfigCommand
+  aliases:
+  - local
+  - l
+  format: '[l]<name>:<message>'
+  permission: ''
+  radius: 100
+- ==: ConfigCommand
+  aliases:
+  - secret
+  - s
+  format: '[s]<name>:<message>'
+  permission: 'halfchat.secret'
+  radius: -1
