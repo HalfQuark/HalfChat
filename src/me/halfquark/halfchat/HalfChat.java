@@ -21,7 +21,6 @@ public class HalfChat extends JavaPlugin {
 	public void onEnable() {
 		this.saveDefaultConfig();
 		ConfigurationSerialization.registerClass(ConfigCommand.class);
-		getLogger().info("Serialization complete");
 		getServer().getPluginManager().registerEvents(new ChatListener(this), this);
 		getConfig().options().copyDefaults(true);
 	}
