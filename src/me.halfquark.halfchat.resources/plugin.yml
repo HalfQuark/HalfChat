@@ -1,9 +1,0 @@
-name: HalfChat
-version: 1.0
-main: me.halfquark.halfchat.HalfChat
-api-version: 1.13
-
-commands:
-    ch:
-        usage: /<command>
-        description: Change chat channel/ List channels.
