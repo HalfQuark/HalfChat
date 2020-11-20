@@ -1,9 +1,27 @@
 name: HalfChat
-version: 1.0
+version: 1.3.5
 main: me.halfquark.halfchat.HalfChat
 api-version: 1.13
 
 commands:
     ch:
-        usage: /<command>
+        usage: /<command> [Channel]
         description: Change chat channel/ List channels.
+    tell:
+        usage: /<command> [Player]
+        description: Direct Message someone.
+    msg:
+        usage: /<command> [Player]
+        description: Direct Message someone.
+    cc:
+        usage: /<command> [Color]
+        description: Change chat color.
+    mute:
+        usage: /<command> [Player] [Reason]
+        description: Mute a player.
+    unmute:
+        usage: /<command> [Player]
+        description: Unmute a player.
+    prefix:
+        usage: /<command> [Player] [Prefix]
+        description: Set a player's prefix.

@@ -7,6 +7,7 @@
 # Use bukkit color codes in format - https://wiki.ess3.net/mc/
 # Use -1 radius for global/infinite distance
 default-channel: general
+default-prefix: '[Member]'
 direct-message:
 - ==: ConfigCommand
   aliases:
@@ -19,6 +20,14 @@ direct-message:
   aliases:
   - r
   format: '&6[&r<name1> &6-> &r<name2>&6] &e<message>'
+  permission: ''
+  radius: -1
+party-chat:
+- ==: ConfigCommand
+  aliases:
+  - party
+  - p
+  format: '&1[&fp&1] &r<name> &1: &9<message>'
   permission: ''
   radius: -1
 commands:
@@ -43,3 +52,55 @@ commands:
   format: '&4[&cs&4] &r<name> &4: &c<message>'
   permission: 'halfchat.secret'
   radius: -1
+
+#Permissions:
+#  halfchat.setColor : Change own chat color
+#  halfchat.setColor[color name] : Use color [color name] as chat color
+#  halfchat.setPlayerColor : Change other player's chat colors
+#  halfchat.useColor :  Use color codes in chat
+
+colors:
+- "black"
+- "&0"
+- "dark_blue"
+- "&1"
+- "dark_green"
+- "&2"
+- "dark_aqua"
+- "&3"
+- "dark_red"
+- "&4"
+- "dark_purple"
+- "&5"
+- "gold"
+- "&6"
+- "gray"
+- "&7"
+- "dark_gray"
+- "&8"
+- "blue"
+- "&9"
+- "green"
+- "&a"
+- "aqua"
+- "&b"
+- "red"
+- "&c"
+- "light_purple"
+- "&d"
+- "yellow"
+- "&e"
+- "white"
+- "&f"
+- "obfuscated"
+- "&k"
+- "bold"
+- "&l"
+- "strikethrough"
+- "&m"
+- "underline"
+- "&n"
+- "italic"
+- "&o"
+- "reset"
+- "&r"
