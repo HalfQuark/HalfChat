@@ -40,13 +40,13 @@ public class ChatListener implements Listener
     private File playerColorsFile;
     private File playerMutesFile;
     private File partyFile;
-    private File prefixFile;
+    //private File prefixFile;
     private FileConfiguration playerChannels;
     private FileConfiguration playerDMs;
     private FileConfiguration playerColors;
     private FileConfiguration playerMutes;
     private FileConfiguration party;
-    private FileConfiguration prefix;
+    //private FileConfiguration prefix;
     private List<String> colors;
     //private String defaultColor;
 
@@ -65,13 +65,13 @@ public class ChatListener implements Listener
         this.playerColorsFile = pluginInstance.playerColorsFile;
         this.playerMutesFile = pluginInstance.playerMutesFile;
         this.partyFile = pluginInstance.partyFile;
-        this.prefixFile = pluginInstance.prefixFile;
+        //this.prefixFile = pluginInstance.prefixFile;
         this.playerChannels = pluginInstance.playerChannels;
         this.playerDMs = pluginInstance.playerDMs;
         this.playerColors = pluginInstance.playerColors;
         this.playerMutes = pluginInstance.playerMutes;
         this.party = pluginInstance.party;
-        this.prefix = pluginInstance.prefix;
+        //this.prefix = pluginInstance.prefix;
         this.colors = (List<String>) pluginInstance.getConfig().getList("colors");
         //this.defaultColor = pluginInstance.getConfig().getString("default-color");
     }
@@ -80,15 +80,16 @@ public class ChatListener implements Listener
     
     public void OnPlayerJoin(PlayerJoinEvent event)
     {
-    	playerSetChannel(event.getPlayer(),defaultChannel);
-    	if(prefix.getString(event.getPlayer().getName()) == null) {
+    	if(playerChannels.getString(event.getPlayer().getName()) == null)
+    		playerSetChannel(event.getPlayer(),defaultChannel);
+    	/*if(prefix.getString(event.getPlayer().getName()) == null) {
     		prefix.set(event.getPlayer().getName(), plugin.getConfig().get("default-prefix"));
     		try {
     			prefix.save(prefixFile);
     		} catch (IOException ex) {
     			
     	    }
-    	}
+    	}*/
     }
     
     @EventHandler
@@ -139,7 +140,7 @@ public class ChatListener implements Listener
     		}
     	}*/
     	
-    	if(args[0].equalsIgnoreCase("/prefix")) {
+    	/*if(args[0].equalsIgnoreCase("/prefix")) {
     		if(!event.getPlayer().hasPermission("halfchat.prefix")) {
     			event.getPlayer().sendMessage(ChatColor.YELLOW + "[C/2]" + ChatColor.RED + "You don't have permission to use that command!");
 				event.setCancelled(true);
@@ -158,7 +159,7 @@ public class ChatListener implements Listener
     	    }
     		event.setCancelled(true);
 			return;
-    	}
+    	}*/
     	
     	if(args[0].equalsIgnoreCase("/mute")) {
     		if(!event.getPlayer().hasPermission("halfchat.mute")) {
@@ -427,7 +428,7 @@ public class ChatListener implements Listener
 
                             if (!joinedMessage.isEmpty())
                             {
-                                String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), joinedMessage, command.format, event.getPlayer());
+                                String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), joinedMessage, command.format, event.getPlayer());
                                 SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission);
                             }
                         }
@@ -468,8 +469,8 @@ public class ChatListener implements Listener
         			args[1] = Bukkit.getServer().getPlayer(args[1]).getName();
         			if (!joinedMessage.isEmpty())
                     {
-                        String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), Bukkit.getPlayer(args[1]).getDisplayName(), joinedMessage, command.format, event.getPlayer());
-                        SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, args[1]);
+        				String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), joinedMessage, command.format, event.getPlayer());
+        				SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, args[1]);
                         if(!args[1].equalsIgnoreCase(event.getPlayer().getName())) {
             				event.getPlayer().sendMessage(formattedMessage);
             			}
@@ -510,7 +511,7 @@ public class ChatListener implements Listener
         			String joinedMessage = StringUtils.join(args, " ").replace(args[0], "").trim();
         			if (!joinedMessage.isEmpty())
                     {
-                        String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), Bukkit.getPlayer(targetPlayerName).getDisplayName(), joinedMessage, command.format, event.getPlayer());
+                        String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), Bukkit.getPlayer(targetPlayerName).getDisplayName(), joinedMessage, command.format, event.getPlayer());
                         SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, targetPlayerName);
                         if(!targetPlayerName.equalsIgnoreCase(event.getPlayer().getName())) {
             				event.getPlayer().sendMessage(formattedMessage);
@@ -544,7 +545,7 @@ public class ChatListener implements Listener
 
                 if (channelArgs[0].equalsIgnoreCase(alias))
                 {
-                	String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+                	String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), event.getMessage(), command.format, event.getPlayer());
                     SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission);
                     event.setCancelled(true);
                     return;
@@ -568,7 +569,7 @@ public class ChatListener implements Listener
     				event.setCancelled(true);
     				return;
         		}
-    			String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), Bukkit.getPlayer(channelArgs[1]).getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+    			String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), Bukkit.getPlayer(channelArgs[1]).getDisplayName(), event.getMessage(), command.format, event.getPlayer());
     			SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, channelArgs[1]);
     			if(!channelArgs[1].equalsIgnoreCase(event.getPlayer().getName())) {
     				event.getPlayer().sendMessage(formattedMessage);
@@ -604,7 +605,7 @@ public class ChatListener implements Listener
         			if(Bukkit.getServer().getPlayer(playerName) == null) {
         				continue;
             		}
-                    String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+                    String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), event.getMessage(), command.format, event.getPlayer());
                     SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, playerName);
     			}
     			event.setCancelled(true);
@@ -632,7 +633,7 @@ public class ChatListener implements Listener
             			if(Bukkit.getServer().getPlayer(member.uuid) == null) {
             				continue;
                 		}
-                        String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+                        String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), event.getMessage(), command.format, event.getPlayer());
                         SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, Bukkit.getPlayer(member.uuid).getName());
         			}
         			event.setCancelled(true);
@@ -659,19 +660,19 @@ public class ChatListener implements Listener
             			if(Bukkit.getServer().getPlayer(member.uuid) == null) {
             				continue;
                 		}
-                        String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+                        String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), event.getMessage(), command.format, event.getPlayer());
                         SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, Bukkit.getPlayer(member.uuid).getName());
         			}
         			for(String allyName : Faction.fromPlayer(event.getPlayer().getUniqueId()).allies) {
         				if(Faction.fromName(allyName) == null)
         					continue;
-        				if(allyName.equalsIgnoreCase(Faction.fromPlayer(event.getPlayer().getUniqueId()).name) )
+        				if(allyName.equalsIgnoreCase(((plugin.fislandsHook)?(" " + Faction.fromPlayer(event.getPlayer().getUniqueId()).name):"")) )
         					continue;
         				for(Member member : Faction.fromName(allyName).members) {
                 			if(Bukkit.getServer().getPlayer(member.uuid) == null) {
                 				continue;
                     		}
-                            String formattedMessage = formatMessage(prefix.get(event.getPlayer().getName()) + event.getPlayer().getDisplayName(), event.getMessage(), command.format, event.getPlayer());
+                            String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), event.getMessage(), command.format, event.getPlayer());
                             SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, Bukkit.getPlayer(member.uuid).getName());
             			}
         			}
@@ -969,6 +970,17 @@ public class ChatListener implements Listener
     			return colors.get(i);
     	}
     	return "";
+    }
+    
+    private String getNameFormat(Player player) {
+    	String out = "";
+    	if(plugin.fislandsHook) {
+    		if(Faction.fromPlayer(player.getUniqueId()) != null) {
+    			out = out + Faction.fromPlayer(player.getUniqueId()).prefix + " ";
+    		}
+    	}
+    	out = out + player.getDisplayName();
+    	return out;
     }
     
     private long toMillis(String time) {
