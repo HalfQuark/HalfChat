@@ -469,7 +469,7 @@ public class ChatListener implements Listener
         			args[1] = Bukkit.getServer().getPlayer(args[1]).getName();
         			if (!joinedMessage.isEmpty())
                     {
-        				String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), joinedMessage, command.format, event.getPlayer());
+        				String formattedMessage = formatMessage(getNameFormat(event.getPlayer()), Bukkit.getPlayer(args[1]).getDisplayName(), joinedMessage, command.format, event.getPlayer());
         				SendMessage(event.getPlayer(), formattedMessage, event.getPlayer().getLocation(), command.radius, command.permission, args[1]);
                         if(!args[1].equalsIgnoreCase(event.getPlayer().getName())) {
             				event.getPlayer().sendMessage(formattedMessage);
